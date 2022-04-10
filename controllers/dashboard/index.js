@@ -1,7 +1,13 @@
+const { Post, Visitor } = require('../../models');
+
 module.exports = {
-    home: (req, res) => {
+    home: async (req, res) => {
         const locals = {
-            data: [ {Post: 10, Visitor: 100, Reader: 10} ],
+            data: [{
+                Post: await Post.count(),
+                Visitor: await Visitor.count(),
+                Reader: await Post.sum('read')
+            }],
             contentName: 'Statistic',
             layout: 'layouts/dashboard'
         }
